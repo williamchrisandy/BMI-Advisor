@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./index.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "jquery/dist/jquery.js"
+import "bootstrap/dist/js/bootstrap.js"
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import Logout from "./pages/Logout";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import Calculator from "./pages/Calculator";
+import Advisor from "./pages/Advisor";
+import NavBar from "./components/NavBar";
 
-function App() {
+function App()
+{
+  const [username, setUsername] = useState("");
+
+  var callback =
+  (username) =>
+  {
+    setUsername(username);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <NavBar username={username}/>
+        <Routes>
+          <Route exact path="/logout" element={<Logout x={false} parentCallback = {callback}/>} />
+          <Route exact path="/" element={<Home username={username}/>} />
+          <Route exact path="/login" element={<Login parentCallback = {callback}/>} />
+          <Route exact path="/register" element={<Register/>} />
+          <Route exact path="/calculator" element={<Calculator username={username}/>} />
+          <Route exact path="/advisor" element={<Advisor/>} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
